@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { UserService } from '../services'
+import { userActions } from '../constants'
 
-export default class Login extends React.Component {
+class LoginComponent extends React.Component {
 
     constructor(props) {
         super(props)
         this.userService = UserService.instance
-        console.log(props)
     }
 
     state = {
@@ -28,7 +29,7 @@ export default class Login extends React.Component {
 
         this.userService.loginUser(user)
             .then(user => {
-                console.log(user)
+                this.props.setUser(user)
                 this.props.history.push('/')
             }, () => console.warn('Could not log in'))
 
@@ -59,6 +60,18 @@ export default class Login extends React.Component {
 
 }
 
-Login.propTypes = {
-    history: PropTypes.object
+LoginComponent.propTypes = {
+    history: PropTypes.object,
+    setUser: PropTypes.func
 }
+
+const mapStateToProps = state => state
+
+const mapDispatchToProps = dispatch => (
+    {
+        setUser: user => dispatch({ type: userActions.SET_USER, user })
+    }
+)
+
+const Login = connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
+export default Login

@@ -1,21 +1,17 @@
+import { userActions } from '../constants'
+
 let initialState = {
-    id: '',
-    username: '',
-    password: '',
-    reviews: []
+    user: {}
 }
 
 const user = (state = initialState, action) => {
 
     switch(action.type) {
 
-    case 'SET_USER':
+    case userActions.SET_USER:
         return {
             ...state,
-            id: action.id,
-            user: action.username,
-            password: action.password,
-            reviews: action.reviews
+            user: action.user
         }
     default:
         return state

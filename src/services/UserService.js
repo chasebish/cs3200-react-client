@@ -18,7 +18,7 @@ export default class MusicService {
     registerUser = (user) => {
         return fetch(`${SERVER_URL}/register`, {
             body: JSON.stringify(user),
-            // credentials: 'include',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -30,7 +30,7 @@ export default class MusicService {
     loginUser = (user) => {
         return fetch(`${SERVER_URL}/login`, {
             body: JSON.stringify(user),
-            // credentials: 'include',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },

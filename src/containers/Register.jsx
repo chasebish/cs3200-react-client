@@ -2,10 +2,12 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { UserService } from '../services'
+import { userActions } from '../constants'
 
-export default class Register extends React.Component {
+class RegisterComponent extends React.Component {
 
     constructor(props) {
         super(props)
@@ -36,7 +38,7 @@ export default class Register extends React.Component {
 
         this.userService.registerUser(user)
             .then(user => {
-                console.log(user)
+                this.props.setUser(user)
                 this.props.history.push('/')
             }, () => console.warn('server error'))
 
@@ -74,6 +76,18 @@ export default class Register extends React.Component {
 
 }
 
-Register.propTypes = {
-    history: PropTypes.object
+RegisterComponent.propTypes = {
+    history: PropTypes.object,
+    setUser: PropTypes.func
 }
+
+const mapStateToProps = state => state
+
+const mapDispatchToProps = dispatch => (
+    {
+        setUser: user => dispatch({ type: userActions.SET_USER, user })
+    }
+)
+
+const Register = connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)
+export default Register
