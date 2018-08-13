@@ -4,7 +4,7 @@ import Youtube from 'react-youtube'
 const VideoComponent = () => (
     <div>
         <Youtube
-            videoId='l1yl1Oz30_k'
+            videoId='YId_6G-YLpQ'
             opts={opts}
             onReady={onReady}
         />

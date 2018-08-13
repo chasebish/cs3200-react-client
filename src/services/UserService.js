@@ -39,4 +39,11 @@ export default class MusicService {
             .then(response => response.json())
     }
 
+    profile = () => {
+        return fetch(`${SERVER_URL}/profile`, {
+            credentials: 'include'
+        })
+            .then(response => response.json())
+    }
+
 }
