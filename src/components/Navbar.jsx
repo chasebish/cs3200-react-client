@@ -5,14 +5,17 @@ import { Link } from 'react-router-dom'
 export default class CustomNavbar extends React.Component {
 
     state = {
-        isOpen: false
+        isOpen: false,
+        search: 'hello world'
     }
 
     openNavButton = () => this.setState({ isOpen: !this.state.isOpen })
 
+    search = () => this.context.router.push('/search')
+
     render() {
         return (
-            <Navbar color="dark" dark expand="md">
+            <Navbar className='mb-3' color="dark" dark expand="md">
                 <Link to="/" className="navbar-brand">Rotten Potatoes</Link>
                 <NavbarToggler onClick={this.openNavButton} />
                 <Collapse isOpen={this.state.isOpen} navbar>
@@ -35,10 +38,12 @@ export default class CustomNavbar extends React.Component {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </ul>
-                    <form className="form-inline my-lg-0">
+                    <div className="form-inline my-lg-0">
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success my-sm-0" type="submit">Search</button>
-                    </form>
+
+                        <Link to={{pathname: '/search', query: {search: this.search}}} className="btn btn-outline-success my-sm-0">Search</Link>
+                        {/* <button className="btn btn-outline-success my-sm-0" onClick={() => console.log('hello')}>Search</button> */}
+                    </div>
                 </Collapse>
             </Navbar>
         )
