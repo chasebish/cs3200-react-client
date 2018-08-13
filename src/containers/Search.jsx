@@ -4,10 +4,6 @@ import React from 'react'
 
 export default class Search extends React.Component {
 
-    componentDidMount() {
-        console.log(this.props.location.search)
-    }
-
     render() {
 
         return (

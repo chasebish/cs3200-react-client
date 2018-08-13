@@ -5,6 +5,10 @@ import { VideoComponent } from '../components'
 
 export default class Home extends React.Component {
 
+    componentDidMount() {
+        
+    }
+
     render() {
         return (
             <div>
