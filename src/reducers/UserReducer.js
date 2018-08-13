@@ -13,6 +13,11 @@ const user = (state = initialState, action) => {
             ...state,
             user: action.user
         }
+    case userActions.LOGOUT_USER:
+        return {
+            ...state,
+            user: {}
+        }
     default:
         return state
     }

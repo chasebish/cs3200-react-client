@@ -39,6 +39,13 @@ export default class MusicService {
             .then(response => response.json())
     }
 
+    logout = () => {
+        return fetch(`${SERVER_URL}/logout`, {
+            credentials: 'include',
+            method: 'POST'
+        })
+    }
+
     profile = () => {
         return fetch(`${SERVER_URL}/profile`, {
             credentials: 'include'

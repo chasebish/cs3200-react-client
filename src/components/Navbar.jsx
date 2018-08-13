@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Collapse, Navbar, NavbarToggler, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import { userActions } from '../constants'
 import { UserService } from '../services'
@@ -28,6 +29,14 @@ class CustomNavbarComponent extends React.Component {
 
     openNavButton = () => this.setState({ isOpen: !this.state.isOpen })
 
+    logout = () => {
+        this.userService.logout()
+            .then(() => {
+                this.props.logoutUser()
+                this.props.history.push('/login')
+            }, () => console.warn('LOGOUT ERROR'))
+    }
+
     render() {
         return (
             <Navbar className='mb-3' color="dark" dark expand="md">
@@ -51,10 +60,12 @@ class CustomNavbarComponent extends React.Component {
                                         <Link to="/login" className="dropdown-item">Login</Link>
                                     </div>
                                 }
-                                <DropdownItem divider />
-                                <DropdownItem>
-                                    Logout
-                                </DropdownItem>
+                                {this.props.user.username &&
+                                    <div>
+                                        <DropdownItem divider />
+                                        <button className='dropdown-item' onClick={() => this.logout()}>Logout</button>
+                                    </div>
+                                }
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </ul>
@@ -69,6 +80,8 @@ class CustomNavbarComponent extends React.Component {
 }
 
 CustomNavbarComponent.propTypes = {
+    history: PropTypes.object,
+    logoutUser: PropTypes.func,
     setUser: PropTypes.func,
     user: PropTypes.object
 }
@@ -81,9 +94,10 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
+        logoutUser: () => dispatch({ type: userActions.LOGOUT_USER }),
         setUser: user => dispatch({ type: userActions.SET_USER, user })
     }
 )
 
-const CustomNavbar = connect(mapStateToProps, mapDispatchToProps)(CustomNavbarComponent)
+const CustomNavbar = withRouter(connect(mapStateToProps, mapDispatchToProps)(CustomNavbarComponent))
 export default CustomNavbar
