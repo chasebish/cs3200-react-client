@@ -17,7 +17,7 @@ export default class VideoRequest extends React.Component {
                         </button>
                     </div>
                 </div>
-                <div className='text-center mt-5'>
+                <div className='justify-content-center mt-5'>
                     <VideoComponent />
                 </div>
             </div>

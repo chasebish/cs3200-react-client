@@ -1,24 +1,41 @@
+/* global window */
+
 import React from 'react'
-import Youtube from 'react-youtube'
+import YouTubePlayer from 'react-player/lib/players/YouTube'
 
-const VideoComponent = () => (
-    <div>
-        <Youtube
-            videoId='YId_6G-YLpQ'
-            opts={opts}
-            onReady={onReady}
-        />
-    </div>
-)
+export default class VideoComponent extends React.Component {
 
-const onReady = (event) => event.target.pauseVideo()
+    state = {
+        width: 0,
+        height: 0
+    }
 
-const opts = {
-    height: '390',
-    width: '640',
-    playerVars: {
-        autoplay: 0
+    componentDidMount() {
+        this.updateWindowDimensions()
+    }
+
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight })
+    }
+
+    render() {
+        return (
+            <div>
+                {window.innerWidth >= 768 &&
+                    <YouTubePlayer
+                        url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
+                        className='bg-secondary p-3'
+                    />
+                }
+                {window.innerWidth <= 768 &&
+                    <YouTubePlayer
+                        url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
+                        height={185.5}
+                        width={330}
+                        className='bg-secondary p-2'
+                    />
+                }
+            </div>
+        )
     }
 }
-
-export default VideoComponent
