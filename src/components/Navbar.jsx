@@ -18,9 +18,8 @@ class CustomNavbarComponent extends React.Component {
     componentDidMount() {
         this.userService.profile()
             .then(user => {
-                console.log('NAVBAR', user)
                 this.props.setUser(user)
-            }, () => console.log('NO USER'))
+            }, () => { return })
     }
 
     state = {

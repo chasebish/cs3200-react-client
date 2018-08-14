@@ -31,4 +31,9 @@ export default class MusicService {
             .then(response => response.json())
     }
 
+    findByYoutubeId = youtubeId => {
+        return fetch(`${SERVER_URL}/youtube/${youtubeId}`)
+            .then(response => response.json())
+    }
+
 }

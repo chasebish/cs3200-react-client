@@ -14,21 +14,33 @@ export default class VideoRequest extends React.Component {
     }
 
     state = {
+        videoExists: false,
         videoId: '',
-        videoObject: {}
+        videoObject: {},
+        videoSubmitted: false
     }
 
-    updateVideoId = event => this.setState({ videoId: event.target.value, videoObject: {} })
+    updateVideoId = event => this.setState({ videoId: event.target.value, videoObject: {}, videoExists: false, videoSubmitted: false })
+
     noVideo = () => !this.state.videoObject.pageInfo || this.state.videoObject.pageInfo.totalResults === 0
     errorvideo = () => this.state.videoObject.pageInfo && this.state.videoObject.pageInfo.totalResults === 0
-    validVideo = () => this.state.videoObject.pageInfo && this.state.videoObject.pageInfo.totalResults > 0
+    validVideo = () => this.state.videoObject.pageInfo && this.state.videoObject.pageInfo.totalResults > 0 && !this.state.videoExists
 
     previewVideo = () => {
-        this.youtubeService.getVideoData(this.state.videoId)
-            .then(video => {
-                this.setState({ videoObject: video })
+
+        this.videoService.findByYoutubeId(this.state.videoId)
+            .then(() => {
+                // VIDEO EXISTS ALREADY
+                this.setState({ videoExists: true })
             }, () => {
-                console.warn('Error getting response')
+                // VIDEO DOES NOT EXIST
+                this.setState({ videoExists: false })
+                this.youtubeService.getVideoData(this.state.videoId)
+                    .then(video => {
+                        this.setState({ videoObject: video })
+                    }, () => {
+                        console.warn('Error hitting Youtube API')
+                    })
             })
     }
 
@@ -41,9 +53,11 @@ export default class VideoRequest extends React.Component {
         }
 
         this.videoService.addVideo(video)
-            .then(video => {
-                console.log(video)
-            }, () => console.warn('Error posting video'))
+            .then(() => {
+                this.setState({ videoSubmitted: true })
+            }, () => {
+                console.warn('Error posting video')
+            })
 
     }
 
@@ -77,6 +91,22 @@ export default class VideoRequest extends React.Component {
                                 url={this.state.videoId}
                             />
                         </div>
+                    </div>
+                }
+                {this.state.videoSubmitted &&
+                    <div>
+                        <div className="alert alert-success mt-3 text-center" role="alert">
+                            Your video has been submitted!
+                        </div>
+                        <p className='text-center m-b-neg'><small>Thank you for the submission.  You can leave a review here!</small></p>
+                    </div>
+                }
+                {this.state.videoExists &&
+                    <div>
+                        <div className="alert alert-info mt-3 text-center" role="alert">
+                            The Video ID you submitted already exists
+                        </div>
+                        <p className='text-center m-b-neg'><small>Please request a video that is unique</small></p>
                     </div>
                 }
                 {this.errorvideo() &&

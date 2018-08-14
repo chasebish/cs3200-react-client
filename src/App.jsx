@@ -1,12 +1,13 @@
 import React from 'react'
 import { combineReducers, createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { user } from './reducers'
+import { user, video } from './reducers'
 
 import { RootComponent } from './components'
 
 const rootReducer = combineReducers({
-    user
+    user,
+    video
 })
 
 const store = createStore(rootReducer)
