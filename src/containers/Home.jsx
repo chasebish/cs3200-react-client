@@ -7,6 +7,8 @@ import { VideoComponent } from '../components'
 import { VideoService } from '../services'
 import { videoActions } from '../constants'
 
+import './containers.css'
+
 class HomeComponent extends React.Component {
 
     constructor(props) {
@@ -18,7 +20,6 @@ class HomeComponent extends React.Component {
         this.videoService.getVideos()
             .then(videos => {
                 this.props.setVideos(videos)
-                console.log(this.props.videos)
             }, () => {
                 console.warn('Error retrieving videos')
             })
@@ -26,7 +27,25 @@ class HomeComponent extends React.Component {
 
     renderVideos = () => {
 
+        let videos = []
+
+        for (let video of this.props.videos) {
+            const component =
+                <div className='videoDesc mt-3 bg-light' key={video.youtubeID}>
+                    <div className='row m-1 mt-2 mb-2'>
+                        <div className='col-lg-8 col-xl-7 chaseContainer'>
+                            <VideoComponent url={video.youtubeID} />
+                        </div>
+                        <div className='col-lg-4 col-xl-5'>
+                            <DescriptionComponent className='leftMargin' />
+                        </div>
+                    </div>
+                </div>
+            videos.push(component)
+        }
+        return videos
     }
+
 
     render() {
         return (
@@ -36,10 +55,8 @@ class HomeComponent extends React.Component {
                     <div className='col-lg-8'>
                         <h3>Videos</h3>
                     </div>
-                    <div className='col-lg-4'>
-                        <h3>Description</h3>
-                    </div>
                 </div>
+                {this.renderVideos()}
             </div>
         )
     }
