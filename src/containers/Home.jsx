@@ -33,10 +33,10 @@ class HomeComponent extends React.Component {
             const component =
                 <div className='videoDesc mt-3 bg-light' key={video.youtubeID}>
                     <div className='row m-1 mt-2 mb-2'>
-                        <div className='col-lg-8 col-xl-7 chaseContainer'>
+                        <div className='col-lg-8 col-xl-7'>
                             <VideoComponent url={video.youtubeID} />
                         </div>
-                        <div className='col-lg-4 col-xl-5'>
+                        <div className='col-lg-4 col-xl-5 align-middle'>
                             <DescriptionComponent className='leftMargin' video={video}/>
                         </div>
                     </div>
@@ -51,11 +51,6 @@ class HomeComponent extends React.Component {
         return (
             <div>
                 <h1 className='display-3'>Rotten Potatoes</h1>
-                <div className='row'>
-                    <div className='col-lg-8'>
-                        <h3>Videos</h3>
-                    </div>
-                </div>
                 {this.renderVideos()}
             </div>
         )

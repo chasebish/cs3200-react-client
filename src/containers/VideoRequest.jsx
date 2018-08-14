@@ -49,10 +49,14 @@ class VideoRequestComponent extends React.Component {
 
     submitVideo = () => {
         const videoProps = this.state.videoObject.items[0]
+        const stats = videoProps.statistics
         const video = {
             youtubeID: videoProps.id,
             title: videoProps.snippet.title,
-            channelTitle: videoProps.snippet.channelTitle
+            channelTitle: videoProps.snippet.channelTitle,
+            likes: stats.likeCount,
+            dislikes: stats.dislikeCount,
+            viewCount: stats.viewCount
         }
 
         this.videoService.addVideo(video)
@@ -87,7 +91,7 @@ class VideoRequestComponent extends React.Component {
                     }
                 </div>
                 {this.validVideo() &&
-                    <div className='chaseContainer'>
+                    <div className='text-center'>
                         <div className='mt-5'>
                             <h4>{this.state.videoObject.items[0].snippet.title}</h4>
                             <VideoComponent
