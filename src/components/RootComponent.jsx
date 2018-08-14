@@ -33,9 +33,9 @@ class RootClass extends React.Component {
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/profile' component={Profile} />
                             <Route exact path='/register' component={Register} />
-                            <Route exact path='/search' component={Search} />
-                            <Route exact path='/video' component={Video} />
                             <Route exact path='/request' component={VideoRequest} />
+                            <Route exact path='/search' component={Search} />
+                            <Route exact path='/video/:videoId' component={Video} />
                         </Switch>
                     </div>
                 </div>

@@ -4,14 +4,14 @@ const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/videos?part=statistic
 
 let _singleton = Symbol()
 
-export default class MusicService {
+export default class YoutubeService {
     constructor(singletonToken) {
         if (_singleton !== singletonToken)
             throw new Error('Cannot instantiate directly.')
     }
     static get instance() {
         if (!this[_singleton])
-            this[_singleton] = new MusicService(_singleton)
+            this[_singleton] = new YoutubeService(_singleton)
         return this[_singleton]
     }
 

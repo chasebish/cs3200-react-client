@@ -16,7 +16,6 @@ export default class MainService {
     }
 
     getYoutubeKey = () => {
-        console.log(`${SERVER_URL}/youtubeApi`)
         return fetch(`${SERVER_URL}/youtubeApi`)
             .then(response => response.text())
     }

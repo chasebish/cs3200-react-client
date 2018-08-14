@@ -37,7 +37,7 @@ class HomeComponent extends React.Component {
                             <VideoComponent url={video.youtubeID} />
                         </div>
                         <div className='col-lg-4 col-xl-5'>
-                            <DescriptionComponent className='leftMargin' />
+                            <DescriptionComponent className='leftMargin' video={video}/>
                         </div>
                     </div>
                 </div>

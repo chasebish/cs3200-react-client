@@ -2,7 +2,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import YouTubePlayer from 'react-player/lib/players/YouTube'
 
 import './components.css'
 
@@ -23,8 +22,8 @@ export default class VideoComponent extends React.Component {
     }
 
     updateWindowDimensions = () => {
-        if (window.innerWidth <= 768) {
-            this.setState({ width: 330, height: 185.5 })
+        if (window.innerWidth <= 576) {
+            this.setState({ width: window.innerWidth - 70, height: (window.innerWidth - 70) * 360 / 640 })
         } else {
             this.setState({ width: 640, height: 360 })
         }
@@ -32,12 +31,9 @@ export default class VideoComponent extends React.Component {
 
     render() {
         return (
-            <YouTubePlayer
-                url={`http://www.youtube.com/watch?v=${this.props.url}`}
-                className='video'
-                height={this.state.height}
-                width={this.state.width}
-            />
+            <div className="embed-responsive embed-responsive-16by9 video">
+                <iframe title={this.props.url} className="embed-responsive-item" src={`https://www.youtube.com/embed/${this.props.url}?rel=0`}></iframe>
+            </div>
         )
     }
 }
