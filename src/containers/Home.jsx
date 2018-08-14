@@ -10,7 +10,6 @@ import { videoActions } from '../constants'
 class HomeComponent extends React.Component {
 
     constructor(props) {
-        console.log(`${process.env.YOUTUBE_API_KEY}`)
         super(props)
         this.videoService = VideoService.instance
     }

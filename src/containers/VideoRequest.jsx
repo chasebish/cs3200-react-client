@@ -1,11 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { VideoComponent } from '../components'
 import { VideoService, YoutubeService } from '../services'
 
 import './containers.css'
 
-export default class VideoRequest extends React.Component {
+class VideoRequestComponent extends React.Component {
 
     constructor(props) {
         super(props)
@@ -35,7 +37,7 @@ export default class VideoRequest extends React.Component {
             }, () => {
                 // VIDEO DOES NOT EXIST
                 this.setState({ videoExists: false })
-                this.youtubeService.getVideoData(this.state.videoId)
+                this.youtubeService.getVideoData(this.state.videoId, this.props.youtubeApiKey)
                     .then(video => {
                         console.log(video)
                         this.setState({ videoObject: video })
@@ -123,3 +125,16 @@ export default class VideoRequest extends React.Component {
     }
 
 }
+
+VideoRequestComponent.propTypes = {
+    youtubeApiKey: PropTypes.string
+}
+
+const mapStateToProps = state => (
+    {
+        youtubeApiKey: state.main.youtubeApiKey
+    }
+)
+
+const VideoRequest = connect(mapStateToProps)(VideoRequestComponent)
+export default VideoRequest
