@@ -12,30 +12,25 @@ export default class VideoComponent extends React.Component {
 
     componentDidMount() {
         this.updateWindowDimensions()
+        window.addEventListener('resize', this.updateWindowDimensions)
     }
 
     updateWindowDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight })
+        if (window.innerWidth <= 768) {
+            this.setState({ width: 330, height: 185.5 })
+        } else {
+            this.setState({ width: 640, height: 360 })
+        }
     }
 
     render() {
         return (
-            <div>
-                {window.innerWidth >= 768 &&
-                    <YouTubePlayer
-                        url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
-                        className='bg-secondary p-2'
-                    />
-                }
-                {window.innerWidth <= 768 &&
-                    <YouTubePlayer
-                        url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
-                        height={185.5}
-                        width={330}
-                        className='bg-secondary p-2'
-                    />
-                }
-            </div>
+            <YouTubePlayer
+                url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
+                className='bg-secondary p-2'
+                height={this.state.height}
+                width={this.state.width}
+            />
         )
     }
 }
