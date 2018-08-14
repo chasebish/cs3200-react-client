@@ -3,3 +3,7 @@
     border-width: medium;
     border-radius: 5px;
 }
+
+.m-b-neg {
+    margin-bottom: -45px;
+}
