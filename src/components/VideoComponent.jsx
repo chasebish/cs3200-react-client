@@ -24,7 +24,7 @@ export default class VideoComponent extends React.Component {
                 {window.innerWidth >= 768 &&
                     <YouTubePlayer
                         url='http://www.youtube.com/watch?v=YId_6G-YLpQ'
-                        className='bg-secondary p-3'
+                        className='bg-secondary p-2'
                     />
                 }
                 {window.innerWidth <= 768 &&
