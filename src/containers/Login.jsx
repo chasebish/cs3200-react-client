@@ -17,8 +17,8 @@ class LoginComponent extends React.Component {
         password: ''
     }
 
-    updateUsername = (event) => this.setState({ username: event.target.value })
-    updatePassword = (event) => this.setState({ password: event.target.value })
+    updateUsername = event => this.setState({ username: event.target.value })
+    updatePassword = event => this.setState({ password: event.target.value })
 
     login = () => {
 

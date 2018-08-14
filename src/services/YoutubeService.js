@@ -1,6 +1,7 @@
 /* global fetch */
 
-import { SERVER_URL } from '../constants'
+import { API_KEY } from '../constants'
+const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=YOUTUBEID&key='
 
 let _singleton = Symbol()
 
@@ -15,19 +16,8 @@ export default class MusicService {
         return this[_singleton]
     }
 
-    getVideos = () => {
-        return fetch(`${SERVER_URL}/video`)
-            .then(response => response.json())
-    }
-
-    addVideo = video => {
-        return fetch(`${SERVER_URL}/video`, {
-            body: JSON.stringify(video),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        })
+    getVideoData = videoId => {
+        return fetch(`${YOUTUBE_URL}${API_KEY}`.replace('YOUTUBEID', videoId))
             .then(response => response.json())
     }
 
