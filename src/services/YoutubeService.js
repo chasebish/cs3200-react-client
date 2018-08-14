@@ -1,7 +1,7 @@
 /* global fetch */
 
 import { API_KEY } from '../constants'
-const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=YOUTUBEID&key='
+const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/videos?part=statistics%2C+snippet&id=YOUTUBEID&key='
 
 let _singleton = Symbol()
 

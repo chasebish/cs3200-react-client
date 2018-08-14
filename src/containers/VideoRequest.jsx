@@ -37,6 +37,7 @@ export default class VideoRequest extends React.Component {
                 this.setState({ videoExists: false })
                 this.youtubeService.getVideoData(this.state.videoId)
                     .then(video => {
+                        console.log(video)
                         this.setState({ videoObject: video })
                     }, () => {
                         console.warn('Error hitting Youtube API')
