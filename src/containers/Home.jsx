@@ -16,21 +16,34 @@ class HomeComponent extends React.Component {
         this.videoService = VideoService.instance
     }
 
+    state = {
+        sort: 'VIEW'
+    }
+
     componentDidMount() {
         this.videoService.getVideos()
             .then(videos => {
                 this.props.setVideos(videos)
-                console.log(videos)
             }, () => {
                 console.warn('Error retrieving videos')
             })
     }
 
-    renderVideos = () => {
+    viewState = () => this.setState({ sort: 'VIEW' })
+    likeState = () => this.setState({ sort: 'LIKE' })
+    dislikeState = () => this.setState({ sort: 'DISLIKE' })
+    overallState = () => this.setState({ sort: 'OVERALL' })
+    humorState = () => this.setState({ sort: 'HUMOR' })
+    informativeState = () => this.setState({ sort: 'INFORMATIVE' })
+    productionState = () => this.setState({ sort: 'PRODUCTION' })
+    cuteState = () => this.setState({ sort: 'CUTE' })
+    sadState = () => this.setState({ sort: 'SAD' })
+
+    renderVideos = sortedVideos => {
 
         let videos = []
 
-        for (let video of this.props.videos) {
+        for (let video of sortedVideos) {
             const component =
                 <div className='videoDesc mt-3 bg-light' key={video.youtubeID}>
                     <div className='row m-1 mt-2 mb-2'>
@@ -38,7 +51,7 @@ class HomeComponent extends React.Component {
                             <VideoComponent url={video.youtubeID} />
                         </div>
                         <div className='col-lg-4 col-xl-5 align-middle'>
-                            <DescriptionComponent className='leftMargin' video={video}/>
+                            <DescriptionComponent className='leftMargin' video={video} />
                         </div>
                     </div>
                 </div>
@@ -47,12 +60,43 @@ class HomeComponent extends React.Component {
         return videos
     }
 
+    viewSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.viewCount - a.viewCount))
+    likeSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.likes - a.likes))
+    dislikeSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.dislikes - a.dislikes))
+    overallSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgOverall - a.avgOverall))
+    humorSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgHumor - a.avgHumor))
+    informativeSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgInformativeness - a.avgInformativeness))
+    productionSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgProduction - a.avgProduction))
+    cuteSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgCuteness - a.avgCuteness))
+    sadSort = () => this.renderVideos(this.props.videos.sort((a, b) => b.avgSadness - a.avgSadness))
+
 
     render() {
         return (
             <div>
                 <h1 className='display-3'>Rotten Potatoes</h1>
-                {this.renderVideos()}
+                <div className='text-center'>
+                    <div className="btn-group-sm" role="group" aria-label="Basic example">
+                        <button onClick={() => this.viewState()} type="button" className="btn btn-primary m-1">Views</button>
+                        <button onClick={() => this.likeState()} type="button" className="btn btn-primary m-1">Likes</button>
+                        <button onClick={() => this.dislikeState()} type="button" className="btn btn-primary m-1">Dislikes</button>
+                        <button onClick={() => this.overallState()} type="button" className="btn btn-primary m-1">Overall</button>
+                        <button onClick={() => this.humorState()} type="button" className="btn btn-primary m-1">Humor</button>
+                        <button onClick={() => this.informativeState()} type="button" className="btn btn-primary m-1">Informativeness</button>
+                        <button onClick={() => this.productionState()} type="button" className="btn btn-primary m-1">Production</button>
+                        <button onClick={() => this.cuteState()} type="button" className="btn btn-primary m-1">Cuteness</button>
+                        <button onClick={() => this.sadState()} type="button" className="btn btn-primary m-1">Sadness</button>
+                    </div>
+                </div>
+                {this.state.sort === 'VIEW' && this.viewSort()}
+                {this.state.sort === 'LIKE' && this.likeSort()}
+                {this.state.sort === 'DISLIKE' && this.dislikeSort()}
+                {this.state.sort === 'OVERALL' && this.overallSort()}
+                {this.state.sort === 'HUMOR' && this.humorSort()}
+                {this.state.sort === 'INFORMATIVE' && this.informativeSort()}
+                {this.state.sort === 'PRODUCTION' && this.productionSort()}
+                {this.state.sort === 'CUTE' && this.cuteSort()}
+                {this.state.sort === 'SAD' && this.sadSort()}
             </div>
         )
     }
@@ -61,7 +105,9 @@ class HomeComponent extends React.Component {
 
 HomeComponent.propTypes = {
     setVideos: PropTypes.func,
-    videos: PropTypes.array
+    videos: PropTypes.array,
+
+    sortLikes: PropTypes.func
 }
 
 const mapStateToProps = state => (
@@ -72,7 +118,8 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        setVideos: videos => dispatch({ type: videoActions.SET_VIDEOS, videos })
+        setVideos: videos => dispatch({ type: videoActions.SET_VIDEOS, videos }),
+        sortLikes: () => dispatch({ type: videoActions.SORT_LIKES })
     }
 )
 

@@ -24,6 +24,40 @@ const video = (state = initialState, action) => {
             ...state,
             searchVideos: []
         }
+    case videoActions.SORT_LIKES: {
+        return {
+            ...state,
+            videos: state.videos.sort((a, b) => b.likes - a.likes)
+        }
+    }
+    case videoActions.SORT_DISLIKES:
+        return {
+
+        }
+    case videoActions.SORT_OVERALL:
+        return {
+
+        }
+    case videoActions.SORT_HUMOR:
+        return {
+
+        }
+    case videoActions.SORT_INFORMATIVE:
+        return {
+
+        }
+    case videoActions.SORT_PRODUCTION:
+        return {
+
+        }
+    case videoActions.SORT_CUTENESS:
+        return {
+
+        }
+    case videoActions.SORT_SADNESS:
+        return {
+
+        }
     default:
         return state
     }

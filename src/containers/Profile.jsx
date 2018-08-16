@@ -71,7 +71,7 @@ class ProfileComponent extends React.Component {
         console.log(this.props.user)
         return (
             <div className='jumbotron'>
-                <h1 className="display-1">Profile</h1>
+                <h1 className="display-3">Profile</h1>
                 <p className="lead">Welcome {this.props.user.username}</p>
                 <div className="mt-3">
                     <div className="form-group row">
@@ -105,7 +105,7 @@ class ProfileComponent extends React.Component {
                         </div>
                     </div>
                     <button onClick={() => this.updateUser()} className='btn btn-outline-success btn-block mt-2'>
-                        Update User
+                        Update Profile
                     </button>
                     <button onClick={() => this.logout()} className='btn btn-outline-danger btn-block mt-2'>
                         Logout
