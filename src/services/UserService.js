@@ -15,7 +15,7 @@ export default class UserService {
         return this[_singleton]
     }
 
-    registerUser = (user) => {
+    registerUser = user => {
         return fetch(`${SERVER_URL}/register`, {
             body: JSON.stringify(user),
             credentials: 'include',
@@ -27,7 +27,7 @@ export default class UserService {
             .then(response => response.json())
     }
 
-    loginUser = (user) => {
+    loginUser = user => {
         return fetch(`${SERVER_URL}/login`, {
             body: JSON.stringify(user),
             credentials: 'include',
@@ -39,11 +39,30 @@ export default class UserService {
             .then(response => response.json())
     }
 
+    updateUser = (userId, user) => {
+        return fetch(`${SERVER_URL}/user/${userId}`, {
+            body: JSON.stringify(user),
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT'
+        })
+            .then(response => response.json())
+    }
+
     logout = () => {
         return fetch(`${SERVER_URL}/logout`, {
             credentials: 'include',
             method: 'POST'
         })
+    }
+
+    findUserById = userId => {
+        return fetch(`${SERVER_URL}/user/${userId}`, {
+            credentials: 'include'
+        })
+            .then(response => response.json())
     }
 
     profile = () => {

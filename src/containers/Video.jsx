@@ -37,6 +37,7 @@ class VideoClass extends React.Component {
         this.videoService.findByYoutubeId(this.props.match.params.videoId)
             .then(video => {
                 this.setVideo(video)
+                console.log(video)
             }, () => console.warn('Could not find video'))
     }
 
@@ -169,12 +170,12 @@ class VideoClass extends React.Component {
                         <button onClick={() => this.openModal()} className='btn btn-primary btn-block mt-2 mb-2 disabled' disabled>Add Review</button>
                     }
                     <div className='row justify-content-center minus-m-b-20'>
-                        <p className='text-info col-3'>Views</p>
+                        <p className='text-primary col-3'>Views</p>
                         <p className='text-success col-3'>Likes</p>
                         <p className='text-danger col-3'>Dislikes</p>
                     </div>
                     <div className='row justify-content-center'>
-                        <p className='text-info col-3'>{this.state.video.viewCount}</p>
+                        <p className='text-primary col-3'>{this.state.video.viewCount}</p>
                         <p className='text-success col-3'>{this.state.video.likes}</p>
                         <p className='text-danger col-3'>{this.state.video.dislikes}</p>
                     </div>
@@ -183,6 +184,28 @@ class VideoClass extends React.Component {
                     <Progress bar color="success" value={(this.state.video.likes / (this.state.video.likes + this.state.video.dislikes)) * 100} />
                     <Progress bar color="danger" value={(this.state.video.dislikes / (this.state.video.likes + this.state.video.dislikes)) * 100} />
                 </Progress>
+                <div className='text-center mt-4'>
+                    <div className='row justify-content-center m-b-neg-20'>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Overall</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Informative</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Humor</p>
+                    </div>
+                    <div className='row justify-content-center'>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgOverall}</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgInformativeness}</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgHumor}</p>
+                    </div>
+                    <div className='row justify-content-center m-b-neg-20'>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Production</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Cuteness</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>Sadness</p>
+                    </div>
+                    <div className='row justify-content-center'>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgProduction}</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgCuteness}</p>
+                        <p className='text-info col-xl-3 col-lg-4 col-md-3 col-4'>{this.state.video.avgSadness}</p>
+                    </div>
+                </div>
                 <Modal isOpen={this.state.openModal}>
                     <div className="modal-header">
                         <h5 className="modal-title">New Review</h5>
