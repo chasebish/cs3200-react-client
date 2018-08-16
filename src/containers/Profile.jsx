@@ -51,7 +51,10 @@ class ProfileComponent extends React.Component {
             }, () => console.warn('Error updating user'))
     }
 
-    logout = () => this.userService.logout()
+    logout = () => {
+        this.userService.logout()
+        this.props.history.push('/login')
+    }
 
     showAlert = () => this.setState({ showAlert: true })
     hideAlert = () => this.setState({ showAlert: false })
