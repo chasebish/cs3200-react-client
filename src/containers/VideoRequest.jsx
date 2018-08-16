@@ -6,6 +6,7 @@ import { VideoComponent } from '../components'
 import { VideoService, YoutubeService } from '../services'
 
 import './containers.css'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 class VideoRequestComponent extends React.Component {
 
@@ -68,6 +69,12 @@ class VideoRequestComponent extends React.Component {
 
     }
 
+    submitMore = () => {
+        this.setState({ videoSubmitted: false, videoId: '', videoObject: {} })
+    }
+
+    navToVideo = () => this.props.history.push(`video/${this.state.videoId}`)
+
     render() {
         return (
             <div className='jumbotron bg-light'>
@@ -101,12 +108,16 @@ class VideoRequestComponent extends React.Component {
                     </div>
                 }
                 {this.state.videoSubmitted &&
-                    <div>
-                        <div className="alert alert-success mt-3 text-center" role="alert">
-                            Your video has been submitted!
-                        </div>
-                        <p className='text-center m-b-neg'><small>Thank you for the submission.  You can leave a review here!</small></p>
-                    </div>
+                    <Modal isOpen={this.state.videoSubmitted}>
+                        <ModalHeader>Modal title</ModalHeader>
+                        <ModalBody>
+                            We appreciate your submission!  Please submit more videos to our database :)
+                        </ModalBody>
+                        <ModalFooter>
+                            <button onClick={this.submitMore} className='btn btn-outline-success'>Submit more!</button>
+                            <button onClick={this.navToVideo} className='btn btn-outline-primary'>Rate Video</button>
+                        </ModalFooter>
+                    </Modal>
                 }
                 {this.state.videoExists &&
                     <div>
@@ -131,7 +142,8 @@ class VideoRequestComponent extends React.Component {
 }
 
 VideoRequestComponent.propTypes = {
-    youtubeApiKey: PropTypes.string
+    youtubeApiKey: PropTypes.string,
+    history: PropTypes.object
 }
 
 const mapStateToProps = state => (
