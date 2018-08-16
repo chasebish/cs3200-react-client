@@ -1,16 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Modal, ModalBody, ModalFooter, Progress } from 'reactstrap'
 
 import { VideoComponent } from '../components'
-import { VideoService } from '../services'
+import { VideoService, ReviewService, RatingService } from '../services'
 
 import './containers.css'
 
-export default class VideoClass extends React.Component {
+class VideoClass extends React.Component {
 
     constructor(props) {
         super(props)
+        this.ratingService = RatingService.instance
+        this.reviewService = ReviewService.instance
         this.videoService = VideoService.instance
     }
 
@@ -20,12 +23,12 @@ export default class VideoClass extends React.Component {
         reviewText: '',
         openModal: false,
         rating: {
-            overall: null,
-            humor: null,
-            informative: null,
-            production: null,
-            cuteness: null,
-            sadness: null
+            overall: undefined,
+            humor: undefined,
+            informative: undefined,
+            production: undefined,
+            cuteness: undefined,
+            sadness: undefined
         }
     }
 
@@ -34,7 +37,7 @@ export default class VideoClass extends React.Component {
         this.videoService.findByYoutubeId(this.props.match.params.videoId)
             .then(video => {
                 this.setVideo(video)
-            }, () => console.warm('Could not find video'))
+            }, () => console.warn('Could not find video'))
     }
 
     updateReviewText = event => this.setState({ reviewText: event.target.value })
@@ -42,6 +45,53 @@ export default class VideoClass extends React.Component {
     setVideo = video => this.setState({ video })
     openModal = () => this.setState({ openModal: true })
     closeModal = () => this.setState({ openModal: false })
+
+    submitReviewRatings = () => {
+
+        const review = {
+            reviewText: this.state.reviewText,
+        }
+
+        const overallRating = {
+            ratingType: 'OVERALL',
+            ratingValue: this.state.rating.overall
+        }
+        const humorRating = {
+            ratingType: 'HUMOR',
+            ratingValue: this.state.rating.overall
+        }
+        const informativeRating = {
+            ratingType: 'INFORMATIVENESS',
+            ratingValue: this.state.rating.overall
+        }
+        const productionRating = {
+            ratingType: 'PRODUCTION',
+            ratingValue: this.state.rating.overall
+        }
+        const cutenessRating = {
+            ratingType: 'CUTENESS',
+            ratingValue: this.state.rating.overall
+        }
+        const sadnessRating = {
+            ratingType: 'SADNESS',
+            ratingValue: this.state.rating.overall
+        }
+
+        this.reviewService.createReview(this.state.video.id, review)
+            .then(review => {
+                this.ratingService.createRating(review.id, overallRating)
+                this.ratingService.createRating(review.id, humorRating)
+                this.ratingService.createRating(review.id, informativeRating)
+                this.ratingService.createRating(review.id, productionRating)
+                this.ratingService.createRating(review.id, cutenessRating)
+                this.ratingService.createRating(review.id, sadnessRating)
+                this.closeModal()
+            }, () => console.warn('Could not post review'))
+
+    }
+
+    disableSubmitRating = () =>
+        !(this.state.rating.overall >= 0) || !(this.state.rating.humor >= 0) || !(this.state.rating.informative >= 0) || !(this.state.rating.production >= 0) || !(this.state.rating.cuteness >= 0) || !(this.state.rating.sadness >= 0) || this.state.reviewText.length === 0
 
     selectOverall = overall => {
         const rating = { ...this.state.rating }
@@ -113,9 +163,11 @@ export default class VideoClass extends React.Component {
                 </div>
                 <VideoComponent url={this.state.video.youtubeID} />
                 <div className='text-center mt-2'>
-                    <button onClick={() => this.openModal()} className='btn btn-primary btn-block mt-2 mb-2'>
-                        Add Review
-                    </button>
+                    {this.props.user.username ?
+                        <button onClick={() => this.openModal()} className='btn btn-primary btn-block mt-2 mb-2'>Add Review</button>
+                        :
+                        <button onClick={() => this.openModal()} className='btn btn-primary btn-block mt-2 mb-2 disabled' disabled>Add Review</button>
+                    }
                     <div className='row justify-content-center minus-m-b-20'>
                         <p className='text-info col-3'>Views</p>
                         <p className='text-success col-3'>Likes</p>
@@ -150,6 +202,7 @@ export default class VideoClass extends React.Component {
                         <div className='text-center'>
                             <h6 className='font-weight-light'>Overall</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectOverall(0)} className={`btn btn-outline-info ${this.overallActive(0)}`}>0</button>
                                 <button onClick={() => this.selectOverall(1)} className={`btn btn-outline-info ${this.overallActive(1)}`}>1</button>
                                 <button onClick={() => this.selectOverall(2)} className={`btn btn-outline-info ${this.overallActive(2)}`}>2</button>
                                 <button onClick={() => this.selectOverall(3)} className={`btn btn-outline-info ${this.overallActive(3)}`}>3</button>
@@ -163,6 +216,7 @@ export default class VideoClass extends React.Component {
                             </div>
                             <h6 className='font-weight-light mt-3'>Humor</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectHumor(0)} className={`btn btn-outline-info ${this.humorActive(0)}`}>0</button>
                                 <button onClick={() => this.selectHumor(1)} className={`btn btn-outline-info ${this.humorActive(1)}`}>1</button>
                                 <button onClick={() => this.selectHumor(2)} className={`btn btn-outline-info ${this.humorActive(2)}`}>2</button>
                                 <button onClick={() => this.selectHumor(3)} className={`btn btn-outline-info ${this.humorActive(3)}`}>3</button>
@@ -176,6 +230,7 @@ export default class VideoClass extends React.Component {
                             </div>
                             <h6 className='font-weight-light mt-3'>Informative</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectInformative(0)} className={`btn btn-outline-info ${this.informativeActive(0)}`}>0</button>
                                 <button onClick={() => this.selectInformative(1)} className={`btn btn-outline-info ${this.informativeActive(1)}`}>1</button>
                                 <button onClick={() => this.selectInformative(2)} className={`btn btn-outline-info ${this.informativeActive(2)}`}>2</button>
                                 <button onClick={() => this.selectInformative(3)} className={`btn btn-outline-info ${this.informativeActive(3)}`}>3</button>
@@ -189,6 +244,7 @@ export default class VideoClass extends React.Component {
                             </div>
                             <h6 className='font-weight-light mt-3'>Production</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectProduction(0)} className={`btn btn-outline-info ${this.productionActive(0)}`}>0</button>
                                 <button onClick={() => this.selectProduction(1)} className={`btn btn-outline-info ${this.productionActive(1)}`}>1</button>
                                 <button onClick={() => this.selectProduction(2)} className={`btn btn-outline-info ${this.productionActive(2)}`}>2</button>
                                 <button onClick={() => this.selectProduction(3)} className={`btn btn-outline-info ${this.productionActive(3)}`}>3</button>
@@ -202,6 +258,7 @@ export default class VideoClass extends React.Component {
                             </div>
                             <h6 className='font-weight-light mt-3'>Cuteness</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectCuteness(0)} className={`btn btn-outline-info ${this.cutenessActive(0)}`}>0</button>
                                 <button onClick={() => this.selectCuteness(1)} className={`btn btn-outline-info ${this.cutenessActive(1)}`}>1</button>
                                 <button onClick={() => this.selectCuteness(2)} className={`btn btn-outline-info ${this.cutenessActive(2)}`}>2</button>
                                 <button onClick={() => this.selectCuteness(3)} className={`btn btn-outline-info ${this.cutenessActive(3)}`}>3</button>
@@ -215,6 +272,7 @@ export default class VideoClass extends React.Component {
                             </div>
                             <h6 className='font-weight-light mt-3'>Sadness</h6>
                             <div className="btn-group">
+                                <button onClick={() => this.selectSadness(0)} className={`btn btn-outline-info ${this.sadnessActive(0)}`}>0</button>
                                 <button onClick={() => this.selectSadness(1)} className={`btn btn-outline-info ${this.sadnessActive(1)}`}>1</button>
                                 <button onClick={() => this.selectSadness(2)} className={`btn btn-outline-info ${this.sadnessActive(2)}`}>2</button>
                                 <button onClick={() => this.selectSadness(3)} className={`btn btn-outline-info ${this.sadnessActive(3)}`}>3</button>
@@ -229,8 +287,12 @@ export default class VideoClass extends React.Component {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <button onClick={this.submitMore} className='btn btn-outline-success'>Submit more!</button>
-                        <button onClick={() => this.closeModal()} className='btn btn-outline-danger'>Exit</button>
+                        {this.disableSubmitRating() ?
+                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success disabled' disabled>Submit more!</button>
+                            :
+                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success'>Submit more!</button>
+                        }
+                        <button onClick={() => this.closeModal()} className='btn btn-danger'>Exit</button>
                     </ModalFooter>
                 </Modal>
             </div>
@@ -240,5 +302,15 @@ export default class VideoClass extends React.Component {
 }
 
 VideoClass.propTypes = {
-    match: PropTypes.object
+    match: PropTypes.object,
+    user: PropTypes.object
 }
+
+const mapStateToProps = state => (
+    {
+        user: state.user.user
+    }
+)
+
+const Video = connect(mapStateToProps)(VideoClass)
+export default Video

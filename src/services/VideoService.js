@@ -23,6 +23,7 @@ export default class VideoService {
     addVideo = video => {
         return fetch(`${SERVER_URL}/video`, {
             body: JSON.stringify(video),
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
