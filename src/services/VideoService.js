@@ -36,4 +36,9 @@ export default class VideoService {
             .then(response => response.json())
     }
 
+    search = keyword => {
+        return fetch(`${SERVER_URL}/video/search/${keyword}`)
+            .then(response => response.json())
+    }
+
 }

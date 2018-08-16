@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { Navbar } from '.'
@@ -27,14 +27,15 @@ class RootClass extends React.Component {
             <BrowserRouter>
                 <div>
                     <Navbar />
-                    <div className="container">
+                    <div className="container pb-5">
                         <Switch>
                             <Route exact path='/' component={Home} />
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/profile' component={Profile} />
                             <Route exact path='/register' component={Register} />
                             <Route exact path='/request' component={VideoRequest} />
-                            <Route exact path='/search' component={Search} />
+                            <Route exact path='/search' render={() => (<Redirect to="/" />)} />
+                            <Route exact path='/search/:query' component={Search} />
                             <Route exact path='/video/:videoId' component={Video} />
                         </Switch>
                     </div>

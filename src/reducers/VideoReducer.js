@@ -1,7 +1,8 @@
 import { videoActions } from '../constants'
 
 let initialState = {
-    videos: []
+    videos: [],
+    searchVideos: []
 }
 
 const video = (state = initialState, action) => {
@@ -12,6 +13,16 @@ const video = (state = initialState, action) => {
         return {
             ...state,
             videos: action.videos
+        }
+    case videoActions.SET_SEARCH_VIDEOS:
+        return {
+            ...state,
+            searchVideos: action.searchVideos
+        }
+    case videoActions.REMOVE_SEARCH_VIDEOS:
+        return {
+            ...state,
+            searchVideos: []
         }
     default:
         return state

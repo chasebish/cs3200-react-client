@@ -24,8 +24,10 @@ class CustomNavbarComponent extends React.Component {
 
     state = {
         isOpen: false,
+        query: ''
     }
 
+    updateQuery = event => this.setState({ query: event.target.value })
     openNavButton = () => this.setState({ isOpen: !this.state.isOpen })
 
     logout = () => {
@@ -34,6 +36,10 @@ class CustomNavbarComponent extends React.Component {
                 this.props.logoutUser()
                 this.props.history.push('/login')
             }, () => console.warn('LOGOUT ERROR'))
+    }
+
+    search = query => {
+        this.props.history.push(`/search/${query}`)
     }
 
     render() {
@@ -69,8 +75,11 @@ class CustomNavbarComponent extends React.Component {
                         </UncontrolledDropdown>
                     </ul>
                     <div className="form-inline my-lg-0">
-                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        <Link to='/search' className="btn btn-outline-success my-sm-0">Search</Link>
+                        <input value={this.state.query} onChange={this.updateQuery} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                        <button onClick={() => this.search(this.state.query)} className="btn btn-outline-success my-sm-0">
+                            Search
+                        </button>
+                        {/* <Link to={`/search/${this.state.query}`} className="btn btn-outline-success my-sm-0">Search</Link> */}
                     </div>
                 </Collapse>
             </Navbar>
