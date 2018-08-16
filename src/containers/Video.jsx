@@ -314,9 +314,9 @@ class VideoClass extends React.Component {
                     </ModalBody>
                     <ModalFooter>
                         {this.disableSubmitRating() ?
-                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success disabled' disabled>Submit more!</button>
+                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success disabled' disabled>Add Review</button>
                             :
-                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success'>Submit more!</button>
+                            <button onClick={() => this.submitReviewRatings()} className='btn btn-success'>Add Review</button>
                         }
                         <button onClick={() => this.closeModal()} className='btn btn-danger'>Exit</button>
                     </ModalFooter>
