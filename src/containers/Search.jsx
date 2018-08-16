@@ -69,7 +69,7 @@ class SearchComponent extends React.Component {
 
         return (
             <div>
-                <h1 className='font-weight-light'>Results for {this.state.query}</h1>
+                <h1 className='font-weight-light'>{this.props.searchVideos.length} results for &quot;{this.state.query}&quot;</h1>
                 {this.renderVideos()}
             </div>
         )

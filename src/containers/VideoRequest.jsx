@@ -109,13 +109,13 @@ class VideoRequestComponent extends React.Component {
                 }
                 {this.state.videoSubmitted &&
                     <Modal isOpen={this.state.videoSubmitted}>
-                        <ModalHeader>Modal title</ModalHeader>
+                        <ModalHeader>Request Recieved!</ModalHeader>
                         <ModalBody>
-                            We appreciate your submission!  Please submit more videos to our database :)
+                            We appreciate your video request!  Please submit more videos to our database :)
                         </ModalBody>
                         <ModalFooter>
-                            <button onClick={this.submitMore} className='btn btn-outline-success'>Submit more!</button>
-                            <button onClick={this.navToVideo} className='btn btn-outline-primary'>Rate Video</button>
+                            <button onClick={() => this.submitMore()} className='btn btn-outline-success'>Submit more!</button>
+                            <button onClick={() => this.navToVideo()} className='btn btn-outline-primary'>Add a Review</button>
                         </ModalFooter>
                     </Modal>
                 }

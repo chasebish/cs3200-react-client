@@ -16,3 +16,11 @@
         margin-left: 10px;
     }
 }
+
+.minus-m-b-20 {
+    margin-bottom: -20px;
+}
+
+.reviewTextArea {
+    height: 250px;
+}
