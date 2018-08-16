@@ -40,6 +40,10 @@ class SearchComponent extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.removeSearchvideos()
+    }
+
     renderVideos = () => {
 
         let videos = []
@@ -77,7 +81,8 @@ class SearchComponent extends React.Component {
 SearchComponent.propTypes = {
     match: PropTypes.object,
     searchVideos: PropTypes.array,
-    setSearchVideos: PropTypes.func
+    setSearchVideos: PropTypes.func,
+    removeSearchvideos: PropTypes.func
 }
 
 const mapStateToProps = state => (
@@ -88,7 +93,8 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        setSearchVideos: searchVideos => dispatch({ type: videoActions.SET_SEARCH_VIDEOS, searchVideos })
+        setSearchVideos: searchVideos => dispatch({ type: videoActions.SET_SEARCH_VIDEOS, searchVideos }),
+        removeSearchvideos: () => dispatch({ type: videoActions.REMOVE_SEARCH_VIDEOS })
     }
 )
 
