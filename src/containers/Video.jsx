@@ -37,7 +37,6 @@ class VideoClass extends React.Component {
         this.videoService.findByYoutubeId(this.props.match.params.videoId)
             .then(video => {
                 this.setVideo(video)
-                console.log(video)
             }, () => console.warn('Could not find video'))
     }
 
@@ -86,6 +85,10 @@ class VideoClass extends React.Component {
                 this.ratingService.createRating(review.id, productionRating)
                 this.ratingService.createRating(review.id, cutenessRating)
                 this.ratingService.createRating(review.id, sadnessRating)
+                this.videoService.findByYoutubeId(this.props.match.params.videoId)
+                    .then(video => {
+                        this.setVideo(video)
+                    }, () => console.warn('Could not find video'))
                 this.closeModal()
             }, () => console.warn('Could not post review'))
 
