@@ -24,6 +24,7 @@ class HomeComponent extends React.Component {
         this.videoService.getVideos()
             .then(videos => {
                 this.props.setVideos(videos)
+                console.log(videos)
             }, () => {
                 console.warn('Error retrieving videos')
             })

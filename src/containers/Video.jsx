@@ -58,23 +58,23 @@ class VideoClass extends React.Component {
         }
         const humorRating = {
             ratingType: 'HUMOR',
-            ratingValue: this.state.rating.overall
+            ratingValue: this.state.rating.humor
         }
         const informativeRating = {
             ratingType: 'INFORMATIVENESS',
-            ratingValue: this.state.rating.overall
+            ratingValue: this.state.rating.informative
         }
         const productionRating = {
             ratingType: 'PRODUCTION',
-            ratingValue: this.state.rating.overall
+            ratingValue: this.state.rating.production
         }
         const cutenessRating = {
             ratingType: 'CUTENESS',
-            ratingValue: this.state.rating.overall
+            ratingValue: this.state.rating.cuteness
         }
         const sadnessRating = {
             ratingType: 'SADNESS',
-            ratingValue: this.state.rating.overall
+            ratingValue: this.state.rating.sadness
         }
 
         this.reviewService.createReview(this.state.video.id, review)
